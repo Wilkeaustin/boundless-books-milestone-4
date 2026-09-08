@@ -1,16 +1,21 @@
 package com.boundlessbooks.controller;
 
 import com.boundlessbooks.model.Review;
-import com.boundlessbooks.service.*;
+import com.boundlessbooks.service.BookService;
+import com.boundlessbooks.service.ReviewService;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class BookController {
+
 	private final BookService books;
 	private final ReviewService reviews;
 
@@ -26,32 +31,20 @@ public class BookController {
 		return "book-details";
 	}
 
-<<<<<<< HEAD
 	@PostMapping("/books/{bookId}/reviews")
 	public String review(
-	        @PathVariable Long bookId,
-	        @Valid @ModelAttribute Review review,
-	        BindingResult result,
-	        Authentication auth,
-	        Model model) {
+			@PathVariable Long bookId,
+			@Valid @ModelAttribute Review review,
+			BindingResult result,
+			Authentication auth,
+			Model model) {
 
-	    if (result.hasErrors()) {
-	        model.addAttribute("book", books.findById(bookId));
-	        return "book-details";
-	    }
-
-	    reviews.create(bookId, review, auth.getName());
-	    return "redirect:/books/" + bookId + "?reviewed";
-=======
-	@PostMapping("/books/{id}/reviews")
-	public String review(@PathVariable Long id, @Valid @ModelAttribute Review review, BindingResult result,
-			Authentication auth, Model model) {
 		if (result.hasErrors()) {
-			model.addAttribute("book", books.findById(id));
+			model.addAttribute("book", books.findById(bookId));
 			return "book-details";
 		}
-		reviews.create(id, review, auth.getName());
-		return "redirect:/books/" + id + "?reviewed";
->>>>>>> branch 'main' of https://github.com/Wilkeaustin/boundless-books.git
+
+		reviews.create(bookId, review, auth.getName());
+		return "redirect:/books/" + bookId + "?reviewed";
 	}
 }
