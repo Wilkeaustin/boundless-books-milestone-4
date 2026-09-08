@@ -7,6 +7,7 @@ import java.util.List;
 
 @Service
 public class BookService {
+
 	private final BookRepository books;
 
 	public BookService(BookRepository books) {
@@ -14,18 +15,19 @@ public class BookService {
 	}
 
 	public List<Book> browse(String search, String genre) {
-		if (search != null && !search.isBlank())
-<<<<<<< HEAD
+		if (search != null && !search.isBlank()) {
 			return books.findByTitleContainingIgnoreCase(search);
-=======
-			return books.findByTitleIgnoreCase(search, search);
->>>>>>> branch 'main' of https://github.com/Wilkeaustin/boundless-books.git
-		if (genre != null && !genre.isBlank())
+		}
+
+		if (genre != null && !genre.isBlank()) {
 			return books.findByGenreIgnoreCase(genre);
+		}
+
 		return books.findAll();
 	}
 
 	public Book findById(Long id) {
-		return books.findById(id).orElseThrow(() -> new IllegalArgumentException("Book not found"));
+		return books.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Book not found"));
 	}
 }
